@@ -1,8 +1,8 @@
 <?php
 
-use use Illuminate\Database\Eloquent\Models;
+use Illuminate\Database\Eloquent\Model;
 
 class Articles extends Model
 {
-	public $timetaps = false;
+	public $timestamps = false;
 }
