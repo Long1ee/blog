@@ -1,8 +1,7 @@
 <?php
-
 require_once __DIR__."/vendor/autoload.php";
 
-se Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 $capsule = new Capsule;
 
@@ -17,17 +16,11 @@ $capsule->addConnection([
     'prefix'    => '',
 ]);
 
-
-
-
 // Make this Capsule instance available globally via static methods... (optional)
 $capsule->setAsGlobal();
 
 // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
 $capsule->bootEloquent();
-
-
-
 
 function render($view, $params = array())
 {
@@ -35,56 +28,54 @@ function render($view, $params = array())
 
 	extract($params);
 
-	var_dump($foo);
-	var_dump($lorem);
 
-	$view= include "views/".$view".php";
+	$view= include "views/".$view.".php";
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
 }
 
+$app = new Silex\Application();
+$app['debug'] = true;
 
+	//var_dump($app);
+$app->get('/', function()
+ {
+		
+	return "hello";
+	//render("home", array(
+		
+		//));
+});
+//die('123');
+$app->get('/blog/add', function() {
+	
+	$article = new Articles;
 
+	var_dump($article);
 
-$app= new Silex\Application();
+	$article->title = "title";
+	$article->body = "body";
+	$article->slug = "slug";
+	$article->user_id = 1;
 
-$app["debug"] = true;
+	var_dump($article->save);
 
-$app->get('/', function() {
-	return render("home", array(
-		"foo"=> "bar",
-		"loren"=>"ipsun"))
+	//die();
+//return render(add);
 
 });
 
 $app->get('/blog/view/{slug}', function($slug) {
 	
 	return "Hello";
-
-});
-
-
-$app->get('/blog/add', function() {
-	
-	$article = new Articles;
-	$article->title = "title";
-	$article->body = "body";
-	$article->slug = "slug";
-	$article->user = 1;
-	$article->save;
-	var_dump($article->save);
-	die();
-	// return render(add);
-
 });
 
 $app->get('/blog/edit/{id}', function($id) {
-	return   ;
-
+	return "Hello";
 });
 
 $app->get('/blog/remove/{id}', function($id) {
-	return   ;
-
+	return "Hello";
 });
+
