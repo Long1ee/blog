@@ -28,8 +28,7 @@ function render($view, $params = array())
 
 	extract($params);
 
-
-	$view= include "views/".$view.".php";
+	include "views/".$view.".php";
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
@@ -38,30 +37,26 @@ function render($view, $params = array())
 $app = new Silex\Application();
 $app['debug'] = true;
 
-	//var_dump($app);
+	// var_dump($app);
 $app->get('/', function()
  {
+	return render("home", array(
 		
-	return "hello";
-	//render("home", array(
-		
-		//));
+		));
 });
-//die('123');
+
 $app->get('/blog/add', function() {
 	
 	$article = new Articles;
-
-	var_dump($article);
 
 	$article->title = "title";
 	$article->body = "body";
 	$article->slug = "slug";
 	$article->user_id = 1;
 
-	var_dump($article->save);
+	var_dump($article->save());
 
-	//die();
+	die();
 //return render(add);
 
 });
@@ -76,6 +71,7 @@ $app->get('/blog/edit/{id}', function($id) {
 });
 
 $app->get('/blog/remove/{id}', function($id) {
-	return "Hello";
+	return "Hello".$id;
 });
 
+$app->run();
